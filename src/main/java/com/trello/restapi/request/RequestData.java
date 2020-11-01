@@ -12,22 +12,22 @@ import lombok.Setter;
 @Builder
 public class RequestData {
 
-	private String url;
+    private String url;
 
-	@Builder.Default
-	private Map<String, ?> headers = new HashMap<String, String>();
+    @Builder.Default
+    private Map<String, ?> headers = new HashMap<String, String>();
 
-	@Builder.Default
-	private Map<String, ?> pathParams = new HashMap<String, String>();
+    @Builder.Default
+    private Map<String, ?> pathParams = new HashMap<String, String>();
 
-	@Builder.Default
-	private Map<String, ?> queryParams = new HashMap<String, String>();
+    @Builder.Default
+    private Map<String, ?> queryParams = new HashMap<String, String>();
 
-	@Builder.Default
-	private String contentType = "*/*";
+    @Builder.Default
+    private String contentType = "*/*";
 
-	private Object requestBody;
+    private Object requestBody;
 
-	private String path;
+    private String path;
 
 }
