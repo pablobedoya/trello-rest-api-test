@@ -3,6 +3,7 @@ package com.trello.restapi.request;
 import static io.restassured.RestAssured.given;
 
 import com.trello.restapi.model.response.CreateBoardResponse;
+import com.trello.restapi.model.response.DeleteBoardResponse;
 import com.trello.restapi.model.response.ResponseData;
 
 import io.restassured.http.ContentType;
@@ -19,6 +20,23 @@ public class RequestBuilder {
         
         ResponseData<CreateBoardResponse> responseData = new ResponseData<CreateBoardResponse>();
         responseData.setData(createBoardResponse);
+        responseData.setStatusCode(response.getStatusCode());
+        responseData.setTime(response.getTime());
+
+        return responseData;
+    }
+    
+    public ResponseData<DeleteBoardResponse> deleteBoard(RequestData requestData) {
+        Response response = executeDeleteRequest(requestData);
+        
+        response.then().log().all();
+        
+        DeleteBoardResponse deleteBoardResponse = new DeleteBoardResponse();
+        if (response.getContentType().contains(ContentType.JSON.toString()))
+            deleteBoardResponse = response.as(DeleteBoardResponse.class);
+        
+        ResponseData<DeleteBoardResponse> responseData = new ResponseData<DeleteBoardResponse>();
+        responseData.setData(deleteBoardResponse);
         responseData.setStatusCode(response.getStatusCode());
         responseData.setTime(response.getTime());
 
@@ -87,6 +105,8 @@ public class RequestBuilder {
                     .headers(requestData.getHeaders())
                     .pathParams(requestData.getPathParams())
                     .queryParams(requestData.getQueryParams())
+                    .log()
+                    .all()
                 .when()
                     .delete(requestData.getPath());
     }
