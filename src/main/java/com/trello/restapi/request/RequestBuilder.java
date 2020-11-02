@@ -3,6 +3,7 @@ package com.trello.restapi.request;
 import static io.restassured.RestAssured.given;
 
 import com.trello.restapi.model.response.CreateBoardResponse;
+import com.trello.restapi.model.response.CreateListResponse;
 import com.trello.restapi.model.response.DeleteBoardResponse;
 import com.trello.restapi.model.response.ResponseData;
 
@@ -29,14 +30,27 @@ public class RequestBuilder {
     public ResponseData<DeleteBoardResponse> deleteBoard(RequestData requestData) {
         Response response = executeDeleteRequest(requestData);
         
-        response.then().log().all();
-        
         DeleteBoardResponse deleteBoardResponse = new DeleteBoardResponse();
         if (response.getContentType().contains(ContentType.JSON.toString()))
             deleteBoardResponse = response.as(DeleteBoardResponse.class);
         
         ResponseData<DeleteBoardResponse> responseData = new ResponseData<DeleteBoardResponse>();
         responseData.setData(deleteBoardResponse);
+        responseData.setStatusCode(response.getStatusCode());
+        responseData.setTime(response.getTime());
+
+        return responseData;
+    }
+    
+    public ResponseData<CreateListResponse> createList(RequestData requestData) {
+        Response response = executePostRequestWithoutBody(requestData);
+        
+        CreateListResponse createListResponse = new CreateListResponse();
+        if (response.getContentType().contains(ContentType.JSON.toString()))
+            createListResponse = response.as(CreateListResponse.class);
+        
+        ResponseData<CreateListResponse> responseData = new ResponseData<CreateListResponse>();
+        responseData.setData(createListResponse);
         responseData.setStatusCode(response.getStatusCode());
         responseData.setTime(response.getTime());
 
@@ -105,8 +119,6 @@ public class RequestBuilder {
                     .headers(requestData.getHeaders())
                     .pathParams(requestData.getPathParams())
                     .queryParams(requestData.getQueryParams())
-                    .log()
-                    .all()
                 .when()
                     .delete(requestData.getPath());
     }

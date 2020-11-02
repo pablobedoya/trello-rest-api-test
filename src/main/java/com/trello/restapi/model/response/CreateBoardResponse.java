@@ -63,8 +63,3 @@ class LabelNames {
     public String pink;
     public String black;
 }
-
-@Getter
-@Setter
-class Limits {
-}
