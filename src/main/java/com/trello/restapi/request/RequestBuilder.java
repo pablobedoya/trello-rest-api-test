@@ -91,12 +91,12 @@ public class RequestBuilder {
     public ResponseData<CardResponse> getCard(RequestData requestData) {
         Response response = executeGetRequest(requestData);
 
-        CardResponse updateCardResponse = new CardResponse();
+        CardResponse getCardResponse = new CardResponse();
         if (response.getContentType().contains(ContentType.JSON.toString()))
-            updateCardResponse = response.as(CardResponse.class);
+            getCardResponse = response.as(CardResponse.class);
 
         ResponseData<CardResponse> responseData = new ResponseData<CardResponse>();
-        responseData.setData(updateCardResponse);
+        responseData.setData(getCardResponse);
         responseData.setStatusCode(response.getStatusCode());
         responseData.setTime(response.getTime());
 

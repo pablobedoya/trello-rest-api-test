@@ -9,11 +9,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<properties>
+		<maven.compiler.source>11</maven.compiler.source>
+    	<maven.compiler.target>11</maven.compiler.target>
 		<java.version>11</java.version>
 		<rest-assured.version>4.3.1</rest-assured.version>
 		<lombok.version>1.18.12</lombok.version>
 		<jackson.version>2.11.0</jackson.version>
-		<javafaker.version>1.0.2</javafaker.version>
 		<junit.version>4.13</junit.version>
 		<cucumber.version>6.7.0</cucumber.version>
 		<cluecumber.version>2.5.0</cluecumber.version>
@@ -52,12 +53,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.github.javafaker</groupId>
-			<artifactId>javafaker</artifactId>
-			<version>${javafaker.version}</version>
-		</dependency>
-
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
@@ -85,5 +80,29 @@
 		</dependency>
 
 	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.trivago.rta</groupId>
+				<artifactId>cluecumber-report-plugin</artifactId>
+				<version>${cluecumber.version}</version>
+				<executions>
+					<execution>
+						<id>report</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>reporting</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<sourceJsonReportDirectory>${project.build.directory}/cucumber-report</sourceJsonReportDirectory>
+					<generatedHtmlReportDirectory>${project.build.directory}/generated-report
+					</generatedHtmlReportDirectory>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
